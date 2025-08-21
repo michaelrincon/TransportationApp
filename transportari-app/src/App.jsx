@@ -4,6 +4,8 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Insurance from "./pages/Insurance";
 
 export default function App() {
   return (
@@ -13,7 +15,15 @@ export default function App() {
         path="/"
         element={
           <MainLayout>
-            <Home />
+            <Dashboard />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/seguros"
+        element={
+          <MainLayout>
+            <Insurance />
           </MainLayout>
         }
       />

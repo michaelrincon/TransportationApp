@@ -11,7 +11,7 @@ export default function MainLayout({ children }) {
       {/* Empuje para que el contenido no quede debajo del AppBar fijo */}
       <Toolbar />
       {/* Contenido */}
-      <Container component="main" sx={{ flex: 1, py: 3 }}>
+      <Container component="main" sx={{ flex: 1, py: 3}} >
         {children}
       </Container>
       {/* Footer */}
