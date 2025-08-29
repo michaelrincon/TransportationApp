@@ -6,6 +6,8 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Insurance from "./pages/Insurance";
+import InsuranceDetail from "./pages/InsuranceDetail";
+import InsuranceForm from "./pages/InsuranceForm";
 
 export default function App() {
   return (
@@ -24,6 +26,22 @@ export default function App() {
         element={
           <MainLayout>
             <Insurance />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/seguros/create"
+        element={
+          <MainLayout>
+            <InsuranceForm />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/seguros/:id"
+        element={
+          <MainLayout>
+            <InsuranceDetail />
           </MainLayout>
         }
       />

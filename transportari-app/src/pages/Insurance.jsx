@@ -1,5 +1,6 @@
 // src/pages/Insurance.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom"; 
 import {
   Box,
   Container,
@@ -19,11 +20,21 @@ import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 
 const initialRows = [
-  { id: 1, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19" },
-  { id: 2, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" },
-  { id: 3, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" },
-  { id: 4, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" },
-  { id: 5, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" },
+  { id: 1, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO" },
+  { id: 2, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO" },
+  { id: 3, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 100000, estado: "PAGADO" },
+  { id: 4, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
+  { id: 5, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
+    { id: 6, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 300000, estado: "PAGADO"},
+  { id: 7, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 9000000, estado: "PAGADO"},
+  { id: 8, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 1200000, estado: "PAGADO"},
+  { id: 9, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 9000000, estado: "PAGADO"},
+  { id: 10, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
+    { id: 11, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
+  { id: 12, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 800000, estado: "PAGADO"},
+  { id: 13, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 500000, estado: "PAGADO"},
+  { id: 14, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
+  { id: 15, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 600000, estado: "PAGADO"},
 ];
 
 const columns = [
@@ -34,9 +45,11 @@ const columns = [
     headerName: "FECHA DE COMPRA",
     flex: 1,
     minWidth: 180,
-    valueFormatter: (params) =>
-      params.value ? dayjs(params.value).format("MM/DD/YYYY") : "",
   },
+  { field: "fechaVencimiento", headerName: "FECHA DE VENCIMIENTO", flex: 1, minWidth: 180 },
+  { field: "anio", headerName: "AÑO", flex: 1, minWidth: 160 },
+  { field: "valorSeguro", headerName: "VALOR SEGURO", flex: 1, minWidth: 160 },
+  { field: "estado", headerName: "ESTADO", flex: 1, minWidth: 160 },
 ];
 
 function CustomToolbar() {
@@ -62,8 +75,9 @@ function CustomToolbar() {
 export default function Insurance() {
   const [rows] = React.useState(initialRows);
 
+  const navigate = useNavigate(); 
   const onFabClick = () => {
-    console.log("Crear nuevo seguro");
+    navigate("/seguros/create");
   };
 
   return (
@@ -88,7 +102,11 @@ export default function Insurance() {
                 pagination: { paginationModel: { pageSize: 10 } },
                 sorting: { sortModel: [{ field: "fechaCompra", sort: "desc" }] },
               }}
-              disableRowSelectionOnClick
+               disableRowSelectionOnClick
+              onRowClick={(params) => {
+                // 👇 redirige a la ruta con el id de la fila
+                navigate(`/seguros/${params.row.id}`);
+              }}
               slots={{ toolbar: CustomToolbar }}
               sx={{
                 border: "none",
@@ -102,14 +120,14 @@ export default function Insurance() {
         </CardContent>
       </Card>
 
-      <Tooltip title="Agregar">
+      <Tooltip title="Agregar Seguro">
         <Fab
           color="primary"
           onClick={onFabClick}
           sx={{
             position: "fixed",
-            right: { xs: 16, sm: 24, md: 32 },
-            bottom: { xs: 16, sm: 24, md: 32 },
+            right: { xs: 26, sm: 34, md: 42 },
+            bottom: { xs: 46, sm: 54, md: 62 },
             boxShadow: 8,
           }}
           aria-label="agregar"
