@@ -297,9 +297,9 @@ export default function InsuranceForm() {
 
               {/* Botonera */}
               <Stack direction="row" justifyContent="space-between">
-                <Button onClick={onCancel}>Cancel</Button>
+                <Button onClick={onCancel}>Cancelar</Button>
                 <Button type="submit" variant="contained">
-                  Save
+                  Confirmar
                 </Button>
               </Stack>
             </Stack>

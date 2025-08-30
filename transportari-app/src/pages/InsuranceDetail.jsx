@@ -1,6 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { Container, Typography, Card, CardContent, Box } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import { Container, Typography, Card, CardContent, Box, Tooltip, Fab, } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit"
+import InsuranceFormDialog from "../components/InsuranceFormDialog";
+import InsuranceDeleteDialog from "../components/InsuranceDeleteDialog";
 
 // Datos de ejemplo — en un caso real los cargarías desde tu API
 const demoData = [
@@ -10,8 +14,12 @@ const demoData = [
 ];
 
 export default function InsuranceDetail() {
-  const { id } = useParams();                 // 👈 obtiene el id de la URL
-  const seguro = demoData.find((r) => r.id.toString() === id);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [seguro, setSeguro] = React.useState(() => demoData.find(r => String(r.id) === String(id)));
+  const [open, setOpen] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+
 
   if (!seguro) {
     return (
@@ -20,6 +28,26 @@ export default function InsuranceDetail() {
       </Container>
     );
   }
+
+  const handleOpen  = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleOpenDelete  = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
+
+  const handleUpdate = async (data) => {
+    // Aquí harías tu PUT a la API con { id, ...data }
+    // await api.updateInsurance(id, data);
+    setSeguro(prev => ({ ...prev, ...data }));  // demo: actualiza vista local
+    handleClose();
+  };
+
+  const handleDelete = async () => {
+    // 👉 Aquí va tu lógica de API: await api.deleteSeguro(seguro.id)
+    console.log("Eliminado seguro", seguro.id);
+
+    // Demo: simplemente navega de vuelta a la lista
+    navigate("/seguros");
+  };
 
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
@@ -58,6 +86,52 @@ export default function InsuranceDetail() {
           </Box>
         </CardContent>
       </Card>
+      <Tooltip title="Editar Seguro">
+        <Fab
+          color="primary"
+          onClick={handleOpen}
+          sx={{
+            position: "fixed",
+            right: { xs: 26, sm: 34, md: 42 },
+            bottom: { xs: 146, sm: 154, md: 162 },
+            boxShadow: 8,
+          }}
+          aria-label="editar"
+        >
+          <EditIcon />
+        </Fab>
+      </Tooltip>
+      <Tooltip title="Eliminar Seguro">
+        <Fab
+          color="primary"
+          onClick={handleOpenDelete}
+          sx={{
+            position: "fixed",
+            right: { xs: 26, sm: 34, md: 42 },
+            bottom: { xs: 46, sm: 54, md: 62 },
+            boxShadow: 8,
+          }}
+          aria-label="eliminar"
+        >
+          <DeleteIcon />
+        </Fab>
+      </Tooltip>
+      {/* Modal de edición */}
+      <InsuranceFormDialog
+        open={open}
+        onClose={handleClose}
+        initialData={seguro}
+        onSubmit={handleUpdate}
+        title="Editar seguro"
+      />
+      {/* Modal eliminar */}
+      <InsuranceDeleteDialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        onConfirm={handleDelete}
+        title="Eliminar seguro"
+        message={`¿Seguro que deseas eliminar el seguro de la placa ${seguro.placa}?`}
+      />
     </Container>
   );
 }
