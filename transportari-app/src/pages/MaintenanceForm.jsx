@@ -27,21 +27,15 @@ const FORM_MAX_WIDTH = 600; // ancho del formulario (ajústalo)
 
 /* Opciones demo */
 const PLACAS = ["UTZ252", "SON975", "THL551", "TFW749", "TSR859"];
-const TIPOS_SEGURO = ["SOAT", "Todo Riesgo", "Responsabilidad Civil"];
-const ESTADOS = ["Activo", "Vencido", "Por Vencer"];
 
 /* Validación */
 const schema = yup.object({
   placa: yup.string().required("Obligatorio"),
-  tipo: yup.string().required("Obligatorio"),
-  fechaCompra: yup.date().required("Obligatorio"),
-  fechaVencimiento: yup
-    .date()
-    .required("Obligatorio")
-    .min(yup.ref("fechaCompra"), "No puede ser anterior a la compra"),
-  anio: yup.number().min(1900).max(2100).required("Obligatorio"),
-  valor: yup.number().min(0).required("Obligatorio"),
-  estado: yup.string().required("Obligatorio"),
+  fechaMantenimiento: yup.date().required("Obligatorio"),
+  parteReparada: yup.string().required("Obligatorio"),
+  tecnico: yup.string().required("Obligatorio"),
+  valorReparacion: yup.number().min(0).required("Obligatorio"),
+  
 });
 
 const currencyFmt = new Intl.NumberFormat("es-CO", {
@@ -50,7 +44,7 @@ const currencyFmt = new Intl.NumberFormat("es-CO", {
   maximumFractionDigits: 0,
 });
 
-export default function InsuranceForm() {
+export default function MaintenanceForm() {
   const {
     control,
     handleSubmit,
@@ -62,33 +56,29 @@ export default function InsuranceForm() {
     resolver: yupResolver(schema),
     defaultValues: {
       placa: "",
-      tipo: "",
-      fechaCompra: null,
-      fechaVencimiento: null,
-      anio: new Date().getFullYear(),
-      valor: 0,
-      estado: "",
+      fechaMantenimiento: null,
+      parteReparada: "",
+      tecnico: "",
+      valorReparacion: 0,
     },
   });
 
-  const anio = watch("anio");
-  const valor = watch("valor");
+  const valor = watch("valorReparacion");
 
-  const onSubmit = (data) => console.log("Guardar seguro:", data);
+  const onSubmit = (data) => console.log("Guardar mantenimiento:", data);
   const onCancel = () => reset();
 
-  const addYear = (delta) => setValue("anio", Number(anio || 0) + delta);
-  const addValor = (delta) => setValue("valor", Math.max(0, Number(valor || 0) + delta));
+  const addValor = (delta) => setValue("valorReparacion", Math.max(0, Number(valor || 0) + delta));
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       {/* Título */}
       <Box sx={{ textAlign: "center", mb: 2 }}>
         <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>
-          Nuevo Seguro
+          Nuevo Mantenimiento
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Registra la compra y vigencia del seguro del vehículo.
+          Registra el mantenimiento de un vehiculo.
         </Typography>
       </Box>
 
@@ -119,122 +109,71 @@ export default function InsuranceForm() {
                 )}
               />
 
+              {/* FECHA DE COMPRA */}
+              <Controller
+                name="fechaMantenimiento"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    label="FECHA DE REPARACION"
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(d) => field.onChange(d ? d.toDate() : null)}
+                    slots={{ openPickerIcon: CalendarMonthIcon }}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        error: !!errors.fechaMantenimiento,
+                        helperText: errors.fechaMantenimiento?.message,
+                      },
+                    }}
+                  />
+                )}
+              />
+
               {/* TIPO DE SEGURO */}
               <Controller
-                name="tipo"
+                name="parteReparada"
                 control={control}
                 render={({ field }) => (
                   <TextField
-                    select
-                    label="TIPO DE SEGURO"
+                    label="PARTE REPARADA"
                     fullWidth
                     {...field}
-                    error={!!errors.tipo}
-                    helperText={errors.tipo?.message}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip title="Agregar tipo">
-                            <IconButton edge="end">
-                              <AddIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}
+                    error={!!errors.parteReparada}
+                    helperText={errors.parteReparada?.message}
                   >
-                    {TIPOS_SEGURO.map((t) => (
-                      <MenuItem key={t} value={t}>
-                        {t}
-                      </MenuItem>
-                    ))}
                   </TextField>
                 )}
               />
 
-              {/* FECHA DE COMPRA */}
+              {/* ESTADO */}
               <Controller
-                name="fechaCompra"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label="FECHA DE COMPRA"
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(d) => field.onChange(d ? d.toDate() : null)}
-                    slots={{ openPickerIcon: CalendarMonthIcon }}
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        error: !!errors.fechaCompra,
-                        helperText: errors.fechaCompra?.message,
-                      },
-                    }}
-                  />
-                )}
-              />
-
-              {/* FECHA DE VENCIMIENTO */}
-              <Controller
-                name="fechaVencimiento"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label="FECHA DE VENCIMIENTO"
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(d) => field.onChange(d ? d.toDate() : null)}
-                    slots={{ openPickerIcon: CalendarMonthIcon }}
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        error: !!errors.fechaVencimiento,
-                        helperText: errors.fechaVencimiento?.message,
-                      },
-                    }}
-                  />
-                )}
-              />
-
-              {/* AÑO */}
-              <Controller
-                name="anio"
+                name="tecnico"
                 control={control}
                 render={({ field }) => (
                   <TextField
-                    label="AÑO"
-                    type="number"
+                    label="TECNICO"
                     fullWidth
                     {...field}
-                    error={!!errors.anio}
-                    helperText={errors.anio?.message}
-                    InputProps={{
-                      inputProps: { step: 1 },
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton onClick={() => addYear(-1)} size="small">
-                            <RemoveIcon />
-                          </IconButton>
-                          <IconButton onClick={() => addYear(1)} size="small">
-                            <AddIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                    error={!!errors.tecnico}
+                    helperText={errors.tecnico?.message}
+                  >
+                  </TextField>
                 )}
               />
 
               {/* VALOR SEGURO */}
               <Controller
-                name="valor"
+                name="valorReparacion"
                 control={control}
                 render={({ field }) => (
                   <TextField
-                    label="VALOR SEGURO"
+                    label="VALOR REPARACION"
                     type="number"
                     fullWidth
                     {...field}
-                    error={!!errors.valor}
-                    helperText={errors.valor?.message}
+                    error={!!errors.valorReparacion}
+                    helperText={errors.valorReparacion?.message}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -262,38 +201,7 @@ export default function InsuranceForm() {
                 {currencyFmt.format(Number(valor || 0))}
               </Typography>
 
-              {/* ESTADO */}
-              <Controller
-                name="estado"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    select
-                    label="ESTADO"
-                    fullWidth
-                    {...field}
-                    error={!!errors.estado}
-                    helperText={errors.estado?.message}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip title="Agregar estado">
-                            <IconButton edge="end">
-                              <AddIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </InputAdornment>
-                      ),
-                    }}
-                  >
-                    {ESTADOS.map((e) => (
-                      <MenuItem key={e} value={e}>
-                        {e}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-              />
+              
 
               {/* Botonera */}
               <Stack direction="row" justifyContent="space-between">

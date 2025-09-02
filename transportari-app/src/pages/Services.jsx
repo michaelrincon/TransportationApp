@@ -12,10 +12,9 @@ import {
 } from "@mui/material";
 import {
   DataGrid,
-  Toolbar,
-  ExportCsv,
-  ExportPrint,
-  QuickFilter,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
@@ -55,7 +54,7 @@ const columns = [
 
 function CustomToolbar() {
   return (
-    <Toolbar
+    <GridToolbarContainer
       sx={{
         px: 1.5,
         py: 1,
@@ -67,9 +66,9 @@ function CustomToolbar() {
         borderColor: "divider",
       }}
     >
-      <QuickFilter debounceMs={300} />
-      <ExportCsv csvOptions={{ utf8WithBom: true, fileName: "seguros" }} />
-    </Toolbar>
+      <GridToolbarQuickFilter debounceMs={300} />
+      <GridToolbarExport csvOptions={{ utf8WithBom: true, fileName: "seguros" }} />
+    </GridToolbarContainer>
   );
 }
 
@@ -85,10 +84,10 @@ export default function Insurance() {
     <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3 } }}>
       <Box sx={{ textAlign: "center", mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>
-          Seguros
+          Servicios
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Gestión de pólizas y compras de seguros por vehículo.
+          Gestión de servicios que se han tomado.
         </Typography>
       </Box>
 

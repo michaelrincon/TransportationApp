@@ -8,6 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Insurance from "./pages/Insurance";
 import InsuranceDetail from "./pages/InsuranceDetail";
 import InsuranceForm from "./pages/InsuranceForm";
+import Maintenance from "./pages/Maintenance"
+import MaintenanceForm from "./pages/MaintenanceForm";
 
 export default function App() {
   return (
@@ -42,6 +44,22 @@ export default function App() {
         element={
           <MainLayout>
             <InsuranceDetail />
+          </MainLayout>
+        }
+      />
+       <Route
+        path="/mantenimiento"
+        element={
+          <MainLayout>
+            <Maintenance />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/mantenimiento/create"
+        element={
+          <MainLayout>
+            <MaintenanceForm />
           </MainLayout>
         }
       />
