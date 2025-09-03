@@ -1,4 +1,5 @@
 
+// src/pages/Insurance.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom"; 
 import {
@@ -12,49 +13,37 @@ import {
 } from "@mui/material";
 import {
   DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarQuickFilter,
+  Toolbar,
+  ExportCsv,
+  ExportPrint,
+  QuickFilter,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 
 const initialRows = [
-  { id: 1, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO" },
-  { id: 2, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO" },
-  { id: 3, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 100000, estado: "PAGADO" },
-  { id: 4, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
-  { id: 5, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
-    { id: 6, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 300000, estado: "PAGADO"},
-  { id: 7, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 9000000, estado: "PAGADO"},
-  { id: 8, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 1200000, estado: "PAGADO"},
-  { id: 9, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 9000000, estado: "PAGADO"},
-  { id: 10, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
-    { id: 11, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
-  { id: 12, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 800000, estado: "PAGADO"},
-  { id: 13, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 500000, estado: "PAGADO"},
-  { id: 14, placa: "TFW749", tipo: "SOAT", fechaCompra: "2024-04-18" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 900000, estado: "PAGADO"},
-  { id: 15, placa: "TSR859", tipo: "SOAT", fechaCompra: "2024-01-26" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 600000, estado: "PAGADO"},
+  { id: 1, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "COTIZADO" },
+  { id: 2, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "AGENDADO" },
+  { id: 3, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "REALIZADO" },
 ];
 
 const columns = [
   { field: "placa", headerName: "PLACA", flex: 1, minWidth: 140 },
-  { field: "tipo", headerName: "TIPO DE SEGURO", flex: 1, minWidth: 160 },
   {
-    field: "fechaCompra",
-    headerName: "FECHA DE COMPRA",
+    field: "fechaServicio",
+    headerName: "FECHA SERVICIO",
     flex: 1,
     minWidth: 180,
   },
-  { field: "fechaVencimiento", headerName: "FECHA DE VENCIMIENTO", flex: 1, minWidth: 180 },
-  { field: "anio", headerName: "AÑO", flex: 1, minWidth: 160 },
-  { field: "valorSeguro", headerName: "VALOR SEGURO", flex: 1, minWidth: 160 },
+  { field: "cliente", headerName: "CLIENTE", flex: 1, minWidth: 160 },
+  { field: "descripcion", headerName: "DESCRIPCION", flex: 1, minWidth: 160 },
+  { field: "valorServicio", headerName: "VALOR SERVICIO", flex: 1, minWidth: 160 },
   { field: "estado", headerName: "ESTADO", flex: 1, minWidth: 160 },
 ];
 
 function CustomToolbar() {
   return (
-    <GridToolbarContainer
+    <Toolbar
       sx={{
         px: 1.5,
         py: 1,
@@ -66,18 +55,18 @@ function CustomToolbar() {
         borderColor: "divider",
       }}
     >
-      <GridToolbarQuickFilter debounceMs={300} />
-      <GridToolbarExport csvOptions={{ utf8WithBom: true, fileName: "seguros" }} />
-    </GridToolbarContainer>
+      <QuickFilter debounceMs={300} />
+      <ExportCsv csvOptions={{ utf8WithBom: true, fileName: "servicio" }} />
+    </Toolbar>
   );
 }
 
-export default function Insurance() {
+export default function Services() {
   const [rows] = React.useState(initialRows);
 
   const navigate = useNavigate(); 
   const onFabClick = () => {
-    navigate("/seguros/create");
+    navigate("/servicio/create");
   };
 
   return (
@@ -87,7 +76,7 @@ export default function Insurance() {
           Servicios
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Gestión de servicios que se han tomado.
+          Gestión de servicios contratados por vehículo.
         </Typography>
       </Box>
 
@@ -100,12 +89,12 @@ export default function Insurance() {
               pageSizeOptions={[5, 10, 25]}
               initialState={{
                 pagination: { paginationModel: { pageSize: 10 } },
-                sorting: { sortModel: [{ field: "fechaCompra", sort: "desc" }] },
+                sorting: { sortModel: [{ field: "fechaServicio", sort: "desc" }] },
               }}
                disableRowSelectionOnClick
               onRowClick={(params) => {
                 // 👇 redirige a la ruta con el id de la fila
-                navigate(`/seguros/${params.row.id}`);
+                navigate(`/servicio/${params.row.id}`);
               }}
               slots={{ toolbar: CustomToolbar }}
               sx={{
@@ -120,7 +109,7 @@ export default function Insurance() {
         </CardContent>
       </Card>
 
-      <Tooltip title="Agregar Seguro">
+      <Tooltip title="Agregar Servicio">
         <Fab
           color="primary"
           onClick={onFabClick}

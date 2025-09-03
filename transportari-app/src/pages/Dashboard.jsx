@@ -1,19 +1,19 @@
 import React from "react";
 import { Box, Container, Typography, Tooltip, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";            // Seguros
-import BuildCircleOutlinedIcon from "@mui/icons-material/BuildCircleOutlined";    // Mantenimiento
-import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined"; // Servicios
+import CarCrashOutlined from "@mui/icons-material/CarCrashOutlined";            // Seguros
+import CarRepairOutlined from "@mui/icons-material/CarRepairOutlined";    // Mantenimiento
+import DepartureBoardOutlined from "@mui/icons-material/DepartureBoardOutlined"; // Servicios
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined"; // Clientes
-import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined"; // Vehículos
+import AirportShuttleOutlined from "@mui/icons-material/AirportShuttleOutlined"; // Vehículos
 import ModuleCard from "../components/ModuleCard";
 
 const MODULES = [
-  { key: "seguros",       title: "SEGUROS",       to: "/seguros",       Icon: GppGoodOutlinedIcon,               color: "success.main" },
-  { key: "mantenimiento", title: "MANTENIMIENTO", to: "/mantenimiento", Icon: BuildCircleOutlinedIcon,           color: "warning.main" },
-  { key: "servicios",     title: "SERVICIOS",     to: "/servicios",     Icon: MiscellaneousServicesOutlinedIcon, color: "info.main" },
-  { key: "clientes",      title: "CLIENTES",      to: "/clientes",      Icon: PersonPinCircleOutlinedIcon,       color: "secondary.main" },
-  { key: "vehiculos",     title: "VEHICULOS",     to: "/vehiculos",     Icon: DirectionsBusFilledOutlinedIcon,   color: "primary.main" },
+  { key: "seguros",       title: "SEGUROS",       to: "/seguros",       Icon: CarCrashOutlined,               color: "success.main" },
+  { key: "mantenimiento", title: "MANTENIMIENTOS", to: "/mantenimiento", Icon: CarRepairOutlined,           color: "warning.main" },
+  { key: "servicio",     title: "SERVICIOS",     to: "/servicio",     Icon: DepartureBoardOutlined, color: "info.main" },
+  { key: "cliente",      title: "CLIENTES",      to: "/cliente",      Icon: PersonPinCircleOutlinedIcon,       color: "secondary.main" },
+  { key: "vehiculos",     title: "VEHICULOS",     to: "/vehiculos",     Icon: AirportShuttleOutlined,   color: "primary.main" },
 ];
 
 export default function Dashboard() {

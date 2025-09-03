@@ -11,6 +11,9 @@ import InsuranceForm from "./pages/InsuranceForm";
 import Maintenance from "./pages/Maintenance"
 import MaintenanceForm from "./pages/MaintenanceForm";
 import MaintenanceDetail from "./pages/MaintenanceDetail";
+import Services from "./pages/Services";
+import ServicesDetail from "./pages/ServicesDetail";
+import ServicesForm from "./pages/ServicesForm";
 
 export default function App() {
   return (
@@ -69,6 +72,30 @@ export default function App() {
         element={
           <MainLayout>
             <MaintenanceDetail />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/servicio"
+        element={
+          <MainLayout>
+            <Services />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/servicio/create"
+        element={
+          <MainLayout>
+            <ServicesForm />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/servicio/:id"
+        element={
+          <MainLayout>
+            <ServicesDetail />
           </MainLayout>
         }
       />
