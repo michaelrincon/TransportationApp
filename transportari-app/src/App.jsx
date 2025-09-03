@@ -10,6 +10,7 @@ import InsuranceDetail from "./pages/InsuranceDetail";
 import InsuranceForm from "./pages/InsuranceForm";
 import Maintenance from "./pages/Maintenance"
 import MaintenanceForm from "./pages/MaintenanceForm";
+import MaintenanceDetail from "./pages/MaintenanceDetail";
 
 export default function App() {
   return (
@@ -60,6 +61,14 @@ export default function App() {
         element={
           <MainLayout>
             <MaintenanceForm />
+          </MainLayout>
+        }
+      />
+       <Route
+        path="/mantenimiento/:id"
+        element={
+          <MainLayout>
+            <MaintenanceDetail />
           </MainLayout>
         }
       />
