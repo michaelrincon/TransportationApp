@@ -20,7 +20,7 @@ export default function App() {
     <Routes>
       {/* Rutas bajo el layout principal */}
       <Route
-        path="/"
+        path="/index.html"
         element={
           <MainLayout>
             <Dashboard />

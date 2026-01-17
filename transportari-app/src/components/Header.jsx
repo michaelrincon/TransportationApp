@@ -50,7 +50,7 @@ export default function Header() {
         {/* Logo + nombre de app (click -> home) */}
         <Box
           component={RouterLink}
-          to="/"
+          to="/index.html"
           sx={{
             display: "flex",
             alignItems: "center",
