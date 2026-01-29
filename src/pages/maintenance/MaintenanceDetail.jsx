@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography, Card, CardContent, Box, Tooltip, Fab, } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit"
-import MaintenanceFormDialog from "../components/MaintenanceFormDialog";
-import MaintenanceDeleteDialog from "../components/MaintenanceDeleteDialog";
+import MaintenanceFormDialog from "../../components/MaintenanceFormDialog";
+import MaintenanceDeleteDialog from "../../components/MaintenanceDeleteDialog";
 
 // Datos de ejemplo — en un caso real los cargarías desde tu API
 const demoData = [

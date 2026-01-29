@@ -4,16 +4,16 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Insurance from "./pages/Insurance";
-import InsuranceDetail from "./pages/InsuranceDetail";
-import InsuranceForm from "./pages/InsuranceForm";
-import Maintenance from "./pages/Maintenance"
-import MaintenanceForm from "./pages/MaintenanceForm";
-import MaintenanceDetail from "./pages/MaintenanceDetail";
-import Services from "./pages/Services";
-import ServicesDetail from "./pages/ServicesDetail";
-import ServicesForm from "./pages/ServicesForm";
+import Dashboard from "./pages/Main/Dashboard";
+import Insurance from "./pages/insurance/Insurance";
+import InsuranceDetail from "./pages/insurance/InsuranceDetail";
+import InsuranceForm from "./pages/insurance/InsuranceForm";
+import Maintenance from "./pages/maintenance/Maintenance"
+import MaintenanceForm from "./pages/maintenance/MaintenanceForm";
+import MaintenanceDetail from "./pages/maintenance/MaintenanceDetail";
+import Services from "./pages/services/Services";
+import ServicesDetail from "./pages/services/ServicesDetail";
+import ServicesForm from "./pages/services/ServicesForm";
 
 export default function App() {
   return (

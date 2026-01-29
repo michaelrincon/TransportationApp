@@ -6,7 +6,7 @@ import CarRepairOutlined from "@mui/icons-material/CarRepairOutlined";    // Man
 import DepartureBoardOutlined from "@mui/icons-material/DepartureBoardOutlined"; // Servicios
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined"; // Clientes
 import AirportShuttleOutlined from "@mui/icons-material/AirportShuttleOutlined"; // Vehículos
-import ModuleCard from "../components/ModuleCard";
+import ModuleCard from "../../components/ModuleCard";
 
 const MODULES = [
   { key: "seguros",       title: "SEGUROS",       to: "/seguros",       Icon: CarCrashOutlined,               color: "success.main" },

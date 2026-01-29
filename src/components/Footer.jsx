@@ -14,7 +14,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="body2">
-        © 2025 Transportari
+        © 2026 Transportari
       </Typography>
     </Box>
   );

@@ -3,28 +3,28 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography, Card, CardContent, Box, Tooltip, Fab, } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit"
-import InsuranceFormDialog from "../components/InsuranceFormDialog";
-import InsuranceDeleteDialog from "../components/InsuranceDeleteDialog";
+import ServicesFormDialog from "../../components/ServicesFormDialog";
+import ServicesDeleteDialog from "../../components/ServicesDeleteDialog";
 
 // Datos de ejemplo — en un caso real los cargarías desde tu API
 const demoData = [
-  { id: 1, placa: "UTZ252", tipo: "SOAT", fechaCompra: "2024-10-19", fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 600000, estado: "PAGADO" },
-  { id: 2, placa: "SON975", tipo: "SOAT", fechaCompra: "2024-01-06" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 600000, estado: "PAGADO"},
-  { id: 3, placa: "THL551", tipo: "SOAT", fechaCompra: "2023-10-07" , fechaVencimiento: "2025-10-19", anio: 2025, valorSeguro: 600000, estado: "PAGADO"},
+  { id: 1, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "COTIZADO" },
+  { id: 2, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "AGENDADO" },
+  { id: 3, placa: "UTZ252", fechaServicio: "2024-10-19", cliente: "Boris Rojas Gaviria", descripcion: "Villavicencio-Bogotá", valorServicio: 900000, estado: "REALIZADO" },
 ];
 
-export default function InsuranceDetail() {
+export default function ServicesDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [seguro, setSeguro] = React.useState(() => demoData.find(r => String(r.id) === String(id)));
+  const [servicio, setServicio] = React.useState(() => demoData.find(r => String(r.id) === String(id)));
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
 
 
-  if (!seguro) {
+  if (!servicio) {
     return (
       <Container sx={{ mt: 4 }}>
-        <Typography variant="h6">Seguro no encontrado</Typography>
+        <Typography variant="h6">Servicio no encontrado</Typography>
       </Container>
     );
   }
@@ -37,16 +37,16 @@ export default function InsuranceDetail() {
   const handleUpdate = async (data) => {
     // Aquí harías tu PUT a la API con { id, ...data }
     // await api.updateInsurance(id, data);
-    setSeguro(prev => ({ ...prev, ...data }));  // demo: actualiza vista local
+    setServicio(prev => ({ ...prev, ...data }));  // demo: actualiza vista local
     handleClose();
   };
 
   const handleDelete = async () => {
     // 👉 Aquí va tu lógica de API: await api.deleteSeguro(seguro.id)
-    console.log("Eliminado seguro", seguro.id);
+    console.log("Eliminado servicio", servicio.id);
 
     // Demo: simplemente navega de vuelta a la lista
-    navigate("/seguros");
+    navigate("/servicio");
   };
 
   return (
@@ -54,39 +54,35 @@ export default function InsuranceDetail() {
       <Card elevation={3} sx={{ borderRadius: 3 }}>
         <CardContent>
           <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
-            Detalle del Seguro
+            Detalle del Servicio
           </Typography>
           <Box sx={{ mb: 1 }}>
             <Typography variant="subtitle2">Placa:</Typography>
-            <Typography variant="body1">{seguro.placa}</Typography>
+            <Typography variant="body1">{servicio.placa}</Typography>
           </Box>
           <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle2">Tipo:</Typography>
-            <Typography variant="body1">{seguro.tipo}</Typography>
+            <Typography variant="subtitle2">Fecha Servicio:</Typography>
+            <Typography variant="body1">{servicio.fechaServicio}</Typography>
           </Box>
           <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle2">Fecha de compra:</Typography>
-            <Typography variant="body1">{seguro.fechaCompra}</Typography>
+            <Typography variant="subtitle2">Cliente:</Typography>
+            <Typography variant="body1">{servicio.cliente}</Typography>
           </Box>
           <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle2">Fecha de Vencimiento:</Typography>
-            <Typography variant="body1">{seguro.fechaVencimiento}</Typography>
+            <Typography variant="subtitle2">Descripción:</Typography>
+            <Typography variant="body1">{servicio.descripcion}</Typography>
           </Box>
           <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle2">Año:</Typography>
-            <Typography variant="body1">{seguro.anio}</Typography>
-          </Box>
-          <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle2">Valor Seguro:</Typography>
-            <Typography variant="body1">{seguro.valorSeguro}</Typography>
+            <Typography variant="subtitle2">Valor Servicio:</Typography>
+            <Typography variant="body1">{servicio.valorServicio}</Typography>
           </Box>
           <Box sx={{ mb: 1 }}>
             <Typography variant="subtitle2">Estado:</Typography>
-            <Typography variant="body1">{seguro.estado}</Typography>
+            <Typography variant="body1">{servicio.estado}</Typography>
           </Box>
         </CardContent>
       </Card>
-      <Tooltip title="Editar Seguro">
+      <Tooltip title="Editar Servicio">
         <Fab
           color="primary"
           onClick={handleOpen}
@@ -101,7 +97,7 @@ export default function InsuranceDetail() {
           <EditIcon />
         </Fab>
       </Tooltip>
-      <Tooltip title="Eliminar Seguro">
+      <Tooltip title="Eliminar Servicio">
         <Fab
           color="primary"
           onClick={handleOpenDelete}
@@ -117,20 +113,20 @@ export default function InsuranceDetail() {
         </Fab>
       </Tooltip>
       {/* Modal de edición */}
-      <InsuranceFormDialog
+      <ServicesFormDialog
         open={open}
         onClose={handleClose}
-        initialData={seguro}
+        initialData={servicio}
         onSubmit={handleUpdate}
-        title="Editar seguro"
+        title="Editar servicio"
       />
       {/* Modal eliminar */}
-      <InsuranceDeleteDialog
+      <ServicesDeleteDialog
         open={openDelete}
         onClose={handleCloseDelete}
         onConfirm={handleDelete}
-        title="Eliminar seguro"
-        message={`¿Seguro que deseas eliminar el seguro de la placa ${seguro.placa}?`}
+        title="Eliminar servicio"
+        message={`¿Seguro que deseas eliminar el servicio del vehiculo con placa ${servicio.placa}?`}
       />
     </Container>
   );
